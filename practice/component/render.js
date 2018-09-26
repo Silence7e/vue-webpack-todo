@@ -6,6 +6,8 @@ const component = {
   data() {
     return {
       value: 'scoped-slot',
+      value1: 'scoped-slot',
+      props1: 'data123',
       style: {
         width: '200px',
         height: '200px',

@@ -12,10 +12,10 @@ const app = new Vue({
     // $el  undefined,
     console.log(this.$el, 'created');
   },
-  beforeMount() {
+  beforeMount() { // div 节点
     console.log(this.$el, 'beforeMount');
   },
-  mounted() {
+  mounted() { // 渲染后的
     console.log(this.$el, 'mounted');
   },
   beforeUpdate() {
@@ -24,8 +24,8 @@ const app = new Vue({
   updated() {
     console.log(this, 'updated');
   },
-  activated() {
-    console.log(this, 'activated');
+  activated() { // 组件
+    console.log(this, 'activated'); // keep alive
   },
   deactivated() {
     console.log(this, 'deactivated');
@@ -43,7 +43,7 @@ const app = new Vue({
   renderError(h, err) {
     return h('div', {}, err.stack);
     // 开发时会被调用
-    // 作用域：本组件
+    // 作用域：本组件 自组建报错不会致信
   },
   errorCaptured() {
     // 会冒泡，生产环境可以使用

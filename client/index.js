@@ -13,6 +13,26 @@ Vue.use(Vuex);
 const router = createRouter();
 const store = createStore();
 
+store.registerModule('c', {
+  state: {
+    text: 'textC=3',
+  },
+});
+
+// store.watch(state => state.count + 1, (newCount) => {
+//   console.log('new count watched: ', newCount);
+// });
+
+store.subscribe((mutation, state) => {
+  console.log(mutation.type);
+  console.log(mutation.payload);
+  console.log(state);
+});
+
+store.subscribeAction((action, state) => {
+  console.log('subscribeAction', action.type, action.payload, state);
+});
+
 router.beforeEach((to, from, next) => {
   console.log('beforeEach');
   // if (to.fullPath !== '/login') {

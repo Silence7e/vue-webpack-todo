@@ -12,6 +12,11 @@ export default () => {
     mutations,
     getters,
     actions,
+    plugins: [
+      (store) => {  //eslint-disable-line
+        console.log('plugin invoked', store);
+      },
+    ],
     modules: {
       a: {
         namespaced: true,
@@ -30,14 +35,22 @@ export default () => {
           },
         },
         actions: {
-          add({ state, commit, rootState }) {
+          add({ state, commit, rootState }, ...rest) {
+            console.log('a/add:', rest);
             commit('updateText', state.text + rootState.count);
           },
         },
       },
       b: {
+        namespaced: true,
         state: {
           text: 2,
+        },
+        actions: {
+          testAction({ dispatch, commit }) {
+            dispatch('a/add', 'test text', { root: true });
+            commit('a/updateText', 'test text', { root: true });
+          },
         },
       },
     },

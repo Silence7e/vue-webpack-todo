@@ -9,19 +9,19 @@ export default [
   {
     // path: '/app/:id',
     path: '/app',
-    props: true,
+    props: true, // 将params 变成props 传入组件 解耦
     // components: {
-    //   default: Todo,
+    //   default: Todo, // 多个router-view 模式
     //   a: Login,
     // },
     component: () => import('../views/todo/todo.vue'),
-    name: 'app',
+    name: 'app', // 跳转的时候用
     meta: {
       title: 'this is app',
       description: 'description',
     },
     beforeEnter(to, from, next) {
-      console.log(to, from);
+      console.log(to, from); // 进入路由之前才会被调用
       next();
     },
     // children: [

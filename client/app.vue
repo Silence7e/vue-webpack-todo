@@ -12,6 +12,7 @@
     <Footer/>
     <p>{{ textA }}</p>
     <p>{{ textB }}</p>
+    <p>{{ textC }}</p>
     <p>{{ textPlus }}</p>
     <!-- <router-view name="a" /> -->
   </div>
@@ -38,6 +39,7 @@ export default {
     ...mapState({
       count: state => state.count,
       textA: state => state.a.text,
+      textC: state => state.c.text,
     }),
     // count() {
     //   return this.$store.state.count;
@@ -54,11 +56,13 @@ export default {
     setTimeout(() => {
       this.updateCount({ num: 1 });
     }, 1000);
+    console.log(this.$route);
     this.updateCountASync({ num: 2, time: 1000 });
     this['a/updateText']('123');
+    this['b/testAction']('456');
   },
   methods: {
-    ...mapActions(['updateCountASync']),
+    ...mapActions(['updateCountASync', 'b/testAction']),
     ...mapMutations(['updateCount', 'a/updateText']),
   },
 };

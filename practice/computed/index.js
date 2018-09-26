@@ -7,8 +7,14 @@ new Vue({
     lastName: 'lee',
   },
   computed: {
-    name() {
-      return `${this.firstName}   ${this.lastName}`;
+    name: {
+      get() {
+        return `${this.firstName}   ${this.lastName}`;
+      },
+      set(name) {
+        const names = name.split(' ');
+        [this.firstName, this.lastName] = names;
+      },
     },
   },
   watch: {

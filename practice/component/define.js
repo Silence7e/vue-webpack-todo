@@ -2,7 +2,14 @@ import Vue from 'vue';
 
 const component = {
   props: {
-    active: Boolean,
+    active: {
+      type: Boolean,
+      required: true,
+      default: true,
+      validator(value) {
+        return typeof value === 'boolean';
+      },
+    },
     propOne: String,
   },
   methods: {
