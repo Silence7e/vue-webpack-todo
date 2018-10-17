@@ -13,9 +13,9 @@ export default () => {
     getters,
     actions,
     plugins: [
-      (store) => {  //eslint-disable-line
-        console.log('plugin invoked', store);
-      },
+      // (store) => {  //eslint-disable-line
+      //   console.log('plugin invoked', store);
+      // },
     ],
     modules: {
       a: {

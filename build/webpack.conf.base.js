@@ -6,11 +6,11 @@ const isDev = process.env.NODE_ENV === 'development';
 const config = {
   mode: process.env.NODE_ENV || 'production',
   target: 'web', // 跑在浏览器上，所以编译目标是web
-  entry: path.join(__dirname, '../client/index.js'),
+  entry: path.join(__dirname, '../client/client-entry.js'),
   output: {
     filename: 'bundle.[hash:8].js',
-    path: path.join(__dirname, '../dist'),
-    publicPath: '/',
+    path: path.join(__dirname, '../public'),
+    publicPath: 'http://127.0.0.1:8000/public/',
   },
   module: {
     rules: [

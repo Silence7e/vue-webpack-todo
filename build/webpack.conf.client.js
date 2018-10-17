@@ -5,6 +5,7 @@ const HTMLPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const VueClientPlugin = require('vue-server-renderer/client-plugin');
 
 const baseConfig = require('./webpack.conf.base');
 
@@ -21,6 +22,7 @@ const defaultPlugins = [
     template: path.join(__dirname, 'template.html'),
   }),
   new VueLoaderPlugin(),
+  new VueClientPlugin(),
 ];
 const devServer = {
   port: 8000,
@@ -29,8 +31,13 @@ const devServer = {
     // 错误显示在网页上
     errors: true,
   },
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
   hot: true, // 热更新，只重新渲染该页面的组件
-  historyApiFallback: true,
+  historyApiFallback: {
+    index: '/public/index.html',
+  },
 };
 
 let config;
@@ -64,10 +71,11 @@ if (isDev) {
 } else {
   config = merge(baseConfig, {
     entry: {
-      app: path.join(__dirname, '../client/index.js'),
+      app: path.join(__dirname, '../client/client-entry.js'),
     },
     output: {
       filename: '[name].[chunkhash:8].js',
+      publicPath: '/public/',
     },
     optimization: {
       splitChunks: {

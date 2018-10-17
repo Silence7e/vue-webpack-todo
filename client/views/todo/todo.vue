@@ -1,5 +1,32 @@
 <template>
   <section class="real-app">
+    <div class="tab-container">
+      <tabs
+        :value="filter"
+        @change="handleChangeTab">
+        <tab
+          v-for="tab in states"
+          :key="tab"
+          :label="tab"
+          :index="tab" />
+          <!-- <tab
+          label="tab1"
+          index="1">
+          <span>tab Content 1</span>
+        </tab>
+        <tab index="2">
+          <span
+            slot="label"
+            style="color:red;">tab2</span>
+          <span>tab Content 2</span>
+        </tab>
+        <tab
+          label="tab3"
+          index="3">
+          <span>tab Content 3</span>
+        </tab> -->
+      </tabs>
+    </div>
     <input
       type="text"
       class="add-input"
@@ -13,7 +40,7 @@
       :key="todo.id"
       @del="deleteTodo"
     />
-    <tabs
+    <helper
       :filter="filter"
       :todos="todos"
       @toggle="toggleFilter"
@@ -24,10 +51,13 @@
 </template>
 <script>
 import Item from './item.vue';
-import Tabs from './tabs.vue';
+import Helper from './helper.vue';
 
 let id = 0;
 export default {
+  metaInfo: {
+    title: 'Todo App',
+  },
   beforeRouteEnter(to, from, next) {
     console.log('todo before enter');
     next(vm => console.log(`id is ${vm.id}`));
@@ -44,7 +74,7 @@ export default {
   },
   components: {
     Item,
-    Tabs,
+    Helper,
   },
   props: {
     id: {
@@ -56,6 +86,7 @@ export default {
     return {
       todos: [],
       filter: 'all',
+      states: ['all', 'active', 'completed'],
     };
   },
   computed: {
@@ -88,6 +119,9 @@ export default {
     clearAllCompleted() {
       this.todos = this.todos.filter(todo => !todo.completed);
     },
+    handleChangeTab(value) {
+      this.filter = value;
+    },
   },
 };
 </script>
@@ -117,5 +151,10 @@ export default {
   font-smoothing: antialiased;
   padding: 16px 16px 16px 60px;
   border: none;
+}
+
+.tab-container {
+  background: #fff;
+  padding: 0 15px;
 }
 </style>
