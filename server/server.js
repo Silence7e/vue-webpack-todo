@@ -25,8 +25,10 @@ const isDev = process.env.NODE_ENV === 'development';
 let pageRouter;
 if (isDev) {
   pageRouter = require('./routers/dev-ssr');
+  // pageRouter = require('./routers/dev-ssr-no-bundle');
 } else {
-  pageRouter = require('./routers/ssr');
+  // pageRouter = require('./routers/ssr');
+  pageRouter = require('./routers/ssr-no-bundle');
 }
 app.use(async (ctx, next) => {
   try {

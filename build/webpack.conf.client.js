@@ -110,6 +110,7 @@ if (isDev) {
         filename: 'css/[name].[contenthash].css',
         chunkFilename: 'css/[name].[contenthash].css',
       }),
+      new webpack.NamedChunksPlugin(),
     ]),
   });
 }
