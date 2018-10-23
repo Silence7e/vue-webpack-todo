@@ -1,4 +1,38 @@
 {
-  "presets": ["env", "stage-1"],
-  "plugins": ["transform-vue-jsx", "syntax-dynamic-import"]
+  "presets": [
+    "stage-1"
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+    "syntax-dynamic-import"
+  ],
+  "env": {
+    "browser": {
+      "presets": [
+        [
+          "env",
+          {
+            "target": {
+              "browsers": [
+                "last 2 versions",
+                "safari >= 7"
+              ]
+            }
+          }
+        ]
+      ]
+    },
+    "node": {
+      "presets": [
+        [
+          "env",
+          {
+            "target": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    }
+  }
 }

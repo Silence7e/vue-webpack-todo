@@ -58,7 +58,7 @@ const notify = (options) => {
   instance.vm.$on('closed', () => {
     removeInstance(instance);
     document.body.removeChild(instance.vm.$el);
-    instance.vm.$destory();
+    instance.vm.$destroy();
   });
 
   instance.vm.$on('close', () => {

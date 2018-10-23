@@ -32,13 +32,14 @@
       class="add-input"
       autofocus="autofocus"
       placeholder="接下去要做什么？"
-      @keyup.enter="addTodo"
+      @keyup.enter="handleAdd"
     >
     <item
       v-for="todo in filteredTodos"
       :todo="todo"
       :key="todo.id"
       @del="deleteTodo"
+      @toggle="toggleTodoState"
     />
     <helper
       :filter="filter"
@@ -50,10 +51,10 @@
   </section>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
 import Item from './item.vue';
 import Helper from './helper.vue';
 
-let id = 0;
 export default {
   metaInfo: {
     title: 'Todo App',
@@ -67,10 +68,11 @@ export default {
     next();
   },
   beforeRouteLeave(to, from, next) {
-    console.log('todo before leave');
-    if (global.confirm('are you sure')) {
-      next();
-    }
+    // console.log('todo before leave');
+    // if (global.confirm('are you sure')) {
+    //   next();
+    // }
+    next();
   },
   components: {
     Item,
@@ -84,7 +86,6 @@ export default {
   },
   data() {
     return {
-      todos: [],
       filter: 'all',
       states: ['all', 'active', 'completed'],
     };
@@ -97,27 +98,56 @@ export default {
       const completed = this.filter === 'completed';
       return this.todos.filter(todo => completed === todo.completed);
     },
+    ...mapState(['todos']),
   },
   mounted() {
-    console.log(this.id);
+    if (!this.todos || this.todos.length === 0) {
+      this.fetchTodos();
+    }
+  },
+  asyncData({ store, router }) {
+    if (store.state.user) {
+      return store.dispatch('fetchTodos');
+    }
+    router.replace('/login');
+    return Promise.resolve();
   },
   methods: {
-    addTodo(e) {
-      this.todos.unshift({
-        id: (id += 1),
-        content: e.target.value.trim(),
+    ...mapActions([
+      'fetchTodos',
+      'addTodo',
+      'deleteTodo',
+      'updateTodo',
+      'deleteAllCompleted',
+    ]),
+    handleAdd(e) {
+      const content = e.target.value.trim();
+      if (!content) {
+        this.$notify({
+          content: '请输入内容',
+        });
+        return;
+      }
+      const todo = {
+        content,
         completed: false,
-      });
+      };
+      this.addTodo(todo);
       e.target.value = '';
     },
-    deleteTodo(tId) {
-      this.todos.splice(this.todos.findIndex(todo => todo.id === tId), 1);
+    toggleTodoState(todo) {
+      this.updateTodo({
+        id: todo.id,
+        todo: Object.assign({}, todo, {
+          completed: !todo.completed,
+        }),
+      });
     },
     toggleFilter(state) {
       this.filter = state;
     },
     clearAllCompleted() {
-      this.todos = this.todos.filter(todo => !todo.completed);
+      this.deleteAllCompleted();
     },
     handleChangeTab(value) {
       this.filter = value;
