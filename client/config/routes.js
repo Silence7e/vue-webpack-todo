@@ -1,5 +1,5 @@
-import Todo from '../views/todo/todo.vue';
-import Login from '../views/login/login.vue';
+// import Todo from '../views/todo/todo.vue';
+// import Login from '../views/login/login.vue';
 
 export default [
   {
@@ -14,8 +14,8 @@ export default [
     //   default: Todo, // 多个router-view 模式
     //   a: Login,
     // },
-    // component: () => import('../views/todo/todo.vue'),
-    component: Todo,
+    component: () => import(/* webpackChunkName: "todo-vue" */ '../views/todo/todo.vue'),
+    // component: Todo,
     name: 'app', // 跳转的时候用
     meta: {
       title: 'this is app',
@@ -34,7 +34,7 @@ export default [
   },
   {
     path: '/login',
-    // component: () => import('../views/login/login.vue'),
-    component: Login,
+    component: () => import(/* webpackChunkName: "login-vue" */ '../views/login/login.vue'),
+    // component: Login,
   },
 ];

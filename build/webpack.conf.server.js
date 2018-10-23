@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, class-methods-use-this */
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -7,11 +7,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueServerPlugin = require('vue-server-renderer/server-plugin');
 const baseConfig = require('./webpack.conf.base');
 
+class ServerMiniCssExtractPlugin extends MiniCssExtractPlugin {
+  getCssChunkObject() {
+    return {};
+  }
+}
+
 const isDev = process.env.NODE_ENV === 'development';
 
 const plugins = [
   new VueLoaderPlugin(),
-  new MiniCssExtractPlugin({
+  new ServerMiniCssExtractPlugin({
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',
   }),
@@ -39,7 +45,7 @@ const config = merge(baseConfig, {
       {
         test: /\.styl/,
         use: [
-          MiniCssExtractPlugin.loader,
+          ServerMiniCssExtractPlugin.loader,
           'css-loader',
           {
             loader: 'postcss-loader',
