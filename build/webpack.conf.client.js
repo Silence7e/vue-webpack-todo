@@ -8,6 +8,7 @@ const merge = require('webpack-merge');
 const VueClientPlugin = require('vue-server-renderer/client-plugin');
 
 const baseConfig = require('./webpack.conf.base');
+const cdnConfig = require('../app.config').cdn;
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -79,7 +80,7 @@ if (isDev) {
     },
     output: {
       filename: '[name].[chunkhash:8].js',
-      publicPath: '/public/',
+      publicPath: cdnConfig.host,
     },
     optimization: {
       splitChunks: {
